@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 url="https://code.google.com/p/mp4v2/"
 license=('Mozilla Public License 1.1')
 depends=()
-builddepends=('automake' 'autoconf' 'libtool' 'm4' 'bzip2')
+builddepends=('automake' 'autoconf' 'libtool' 'm4' 'binutils' 'bzip2' 'bsdtar')
 source=("https://mp4v2.googlecode.com/files/mp4v2-2.0.0.tar.bz2"
         mp4v2-2.0.0-msys2-prepare.patch)
 sha1sums=('193260cfb7201e6ec250137bcca1468d4d20e2f0'
