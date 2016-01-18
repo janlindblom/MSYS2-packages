@@ -1,0 +1,47 @@
+# Maintainer: poxu <poxvuibr@gmail.com>
+
+pkgname=mp4v2
+pkgver=2.0.0
+pkgrel=1
+pkgdesc="Read, create, and modify MP4 files"
+arch=('i686' 'x86_64')
+url="https://code.google.com/p/mp4v2/"
+license=('Mozilla Public License 1.1')
+depends=()
+builddepends=('automake' 'autoconf' 'libtool' 'm4' 'bzip2')
+source=("https://mp4v2.googlecode.com/files/mp4v2-2.0.0.tar.bz2"
+        mp4v2-2.0.0-msys2-prepare.patch)
+sha1sums=('193260cfb7201e6ec250137bcca1468d4d20e2f0'
+          'd967e1f023546205508b9e5842e0e2beb5353162')
+
+prepare () {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  patch -p1 -i ${srcdir}/mp4v2-2.0.0-msys2-prepare.patch
+  autoreconf -ivf
+}
+
+build () {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+
+  ./configure \
+    --build=${CHOST} \
+    --host=${CHOST} \
+    --disable-debug \
+    --disable-gch \
+    --disable-shared \
+    --enable-static \
+    --prefix=/usr
+
+  make
+}
+
+check () {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make check
+}
+
+package () {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR=${pkgdir} install
+  make DESTDIR=${pkgdir} install-man
+}

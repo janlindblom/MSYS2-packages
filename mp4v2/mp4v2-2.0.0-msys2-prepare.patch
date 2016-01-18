@@ -1,0 +1,43 @@
+--- mp4v2-2.0.0/configure.ac	2012-05-21 00:11:55.000000000 +0200
++++ mp4v2-2.0.0-p/configure.ac	2016-01-18 03:05:04.954617700 +0100
+@@ -18,9 +18,7 @@
+ 
+ m4_define([PRJ_version_hex],m4_format([0x%04x%02x%02x],PRJ_version_major,PRJ_version_minor,PRJ_version_point))
+ 
+-m4_define([PRJ_version],ifelse(
+-    PRJ_repo_type,[stable],m4_format([%s],PRJ_repo_branch),
+-    m4_format([%s-r%d],PRJ_repo_branch,PRJ_repo_rev)))
++m4_define([PRJ_version],m4_format([%d.%d.%d-p1],PRJ_version_major,PRJ_version_minor,PRJ_version_point))
+ 
+ ###############################################################################
+ # initialization
+@@ -98,10 +96,9 @@
+         X_CXX_ARCH="$X_CXX_ARCH -mwin32"
+     fi
+     ;;
+-*-*-mingw*)
++*-*-mingw* | *-*-msys*)
+     # do not support shared
+     enable_shared=no
+-    X_PLATFORM=win32
+     X_MINGW_LIBS="$X_MINGW_LIBS"
+     X_CXX_W="$X_CXX_W -Wno-format"
+     if test "$enable_mingw_threads" = "yes"; then
+@@ -222,7 +219,7 @@
+     case ${host} in
+         *-*-cygwin)
+             ;;
+-        *-*-mingw*)
++        *-*-mingw* | *-*-msys*)
+             ;;
+         *)
+             AC_LANG(C++)
+@@ -257,7 +254,7 @@
+ elif test "$enable_gch" != "no"; then
+     if test "$GXX" = "yes"; then
+         case ${host_os} in
+-            cygwin*|darwin*|freebsd*|linux*|mingw*|solaris*)
++            cygwin*|darwin*|freebsd*|linux*|mingw*|msys*|solaris*)
+                 X_GCH=1
+                 ;;
+         esac
