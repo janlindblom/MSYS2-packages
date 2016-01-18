@@ -1,0 +1,33 @@
+# Maintainer: Jan Lindblom <janlindblom@fastmail.fm>
+
+pkgname=youtube-dl
+pkgver=2016.01.15
+pkgrel=1
+pkgdesc="Download YouTube videos from the command-line"
+arch=('any')
+url="https://rg3.github.io/youtube-dl/"
+license=('Public Domain')
+depends=('python')
+builddepends=('bsdtar')
+source=("https://yt-dl.org/downloads/2016.01.15/youtube-dl-2016.01.15.tar.gz")
+sha1sums=('f4f0480e5cad6fc670c9b733f11727d1aebe70f7')
+
+prepare () {
+  cd "${srcdir}/${pkgname}"
+}
+
+build () {
+  cd "${srcdir}/${pkgname}"
+
+  make PREFIX="/usr"
+}
+
+check () {
+    cd "${srcdir}/${pkgname}"
+    ./youtube-dl --simulate https://www.youtube.com/watch?v=he2a4xK8ctk
+}
+
+package () {
+  cd "${srcdir}/${pkgname}"
+  make PREFIX="/usr" DESTDIR="${pkgdir}" install
+}
